@@ -17,9 +17,12 @@ public class UsuarioServicio {
 	@Autowired //Inyecta la dependencia instanciada
 	private UsuarioRepositorio usuarioRepositorio;
 	
+	@Autowired 
+	private GestionPasswordService gestionPasswordService;
+	
 	/**
 	 * Acceso a la base de datos para obtener todos los usuarios
-	 * @return ArrayList<Usuario> con los usuarios
+	 * @return ArrayList lista con los usuarios registrados
 	 */
 	public ArrayList<Usuario> obtenerTodos() {
 		return (ArrayList<Usuario>) usuarioRepositorio.findAll();
@@ -27,21 +30,24 @@ public class UsuarioServicio {
 	
 	/**
 	 * Acceso a la base de datos para obtener un usuario por su id 
-	 * @param id
-	 * @return Optional<Usuario> usuario buscado por id
+	 * @param id del usuario a obtener 
+	 * @return Optional usuario buscado por id
 	 */
 	public Optional<Usuario> obtenerPorID(long id) {
 		return usuarioRepositorio.findById(id);
 	}
 	
-	/**
-	 * Guarda un nuevo usuario en la base de datos
-	 * @param usuario El usuario a guardar
-	 * @return El usuario guardado
-	 */
-	public Usuario guardarUsuario(Usuario usuario) {
+	  /**
+     * Guarda un nuevo usuario en la base de datos.
+     * @param usuario El usuario a guardar en la base de datos
+     * @return El usuario guardado
+     */
+    public Usuario guardarUsuario(Usuario usuario) {
+		usuario.setClaveUsuario(gestionPasswordService.encriptarContraseña(usuario.getClaveUsuario()));
 		return usuarioRepositorio.save(usuario);
-	}
+    }
+	
+
 	
 	
 

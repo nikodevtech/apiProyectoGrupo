@@ -35,7 +35,6 @@ public class UsuarioControlador {
 
 	/**
 	 * Obtiene todos los usuarios.
-	 * 
 	 * @return Lista de todos los usuarios.
 	 */
 	@GetMapping // GetMapping Define el endpoint al navegar para obtener todos los usuarios
@@ -46,13 +45,10 @@ public class UsuarioControlador {
 
 	/**
 	 * Obtiene un usuario por su ID.
-	 * 
 	 * @param id ID del usuario.
-	 * @return Usuario con el ID proporcionado, o un objeto Optional vacío si no se
-	 *         encuentra.
+	 * @return Usuario con el ID proporcionado, o un objeto Optional vacío si no se encuentra.
 	 */
 	@GetMapping("/id/{id}") // @PathVariable mapea una parte de la URL de una solicitud HTTP a un parámetro
-							// de u id
 	public Optional<Usuario> obtenerPorId(@PathVariable("id") long id) {
 		return usuarioServicio.obtenerPorID(id);
 	}
