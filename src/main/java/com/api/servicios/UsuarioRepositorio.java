@@ -1,5 +1,7 @@
 package com.api.servicios;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,6 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long> {
 	// Los repositorios se utilizan para interactuar con la base de datos de manera
 	// eficiente, y la interfaz JpaRepository proporciona una serie de funcionalidades para
 	// simplificar CRUD con bases de datos.
-	
+	 Optional<Usuario> findByDniUsuario(String dniUsuario);
 
 }

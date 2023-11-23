@@ -35,22 +35,29 @@ public class UsuarioControlador {
 
 	/**
 	 * Obtiene todos los usuarios.
+	 * 
 	 * @return Lista de todos los usuarios.
 	 */
-	@GetMapping // GetMapping Define el endpoint al navegar para obtener todos los usuarios
-				// (usuarios/todos)
+	@GetMapping // GetMapping Define el endpoint al navegar para obtener todos los usuarios (usuarios/todos)
 	public ArrayList<Usuario> obtenerTodosUsuarios() {
 		return usuarioServicio.obtenerTodos();
 	}
 
 	/**
 	 * Obtiene un usuario por su ID.
+	 * 
 	 * @param id ID del usuario.
-	 * @return Usuario con el ID proporcionado, o un objeto Optional vacío si no se encuentra.
+	 * @return Usuario con el ID proporcionado, o un objeto Optional vacío si no se
+	 *         encuentra.
 	 */
 	@GetMapping("/id/{id}") // @PathVariable mapea una parte de la URL de una solicitud HTTP a un parámetro
 	public Optional<Usuario> obtenerPorId(@PathVariable("id") long id) {
 		return usuarioServicio.obtenerPorID(id);
+	}
+	
+	@GetMapping("/dni/{dni}") // @PathVariable mapea una parte de la URL de una solicitud HTTP a un parámetro
+	public boolean obtenerPorDni(@PathVariable("dni") String dni) {
+		return usuarioServicio.existeUsuarioConDNI(dni);
 	}
 
 	/**
@@ -60,9 +67,15 @@ public class UsuarioControlador {
 	 * @return ResponseEntity con el usuario guardado y el código de estado HTTP.
 	 */
 	@PostMapping
-	public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario nuevoUsuario) {
-		Usuario usuarioGuardado = usuarioServicio.guardarUsuario(nuevoUsuario);
-		return new ResponseEntity<>(usuarioGuardado, HttpStatus.CREATED);
+	public ResponseEntity<?> guardarUsuario(@RequestBody Usuario nuevoUsuario) {
+		try {
+			// Intenta guardar el usuario
+			Usuario usuarioGuardado = usuarioServicio.guardarUsuario(nuevoUsuario);
+			return new ResponseEntity<>(usuarioGuardado, HttpStatus.CREATED);
+		} catch (RuntimeException e) {
+			// Maneja la excepción lanzada si el usuario ya existe
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

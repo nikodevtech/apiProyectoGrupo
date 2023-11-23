@@ -43,10 +43,26 @@ public class UsuarioServicio {
      * @return El usuario guardado
      */
     public Usuario guardarUsuario(Usuario usuario) {
-		usuario.setClaveUsuario(gestionPasswordService.encriptarContraseña(usuario.getClaveUsuario()));
-		return usuarioRepositorio.save(usuario);
+    	 // Verifica si el usuario ya existe antes de guardarlo
+        if (!existeUsuarioConDNI(usuario.getDniUsuario())) {
+            usuario.setClaveUsuario(gestionPasswordService.encriptarContraseña(usuario.getClaveUsuario()));
+            return usuarioRepositorio.save(usuario);
+        } else {
+            // Manejar la lógica de error, por ejemplo, lanzar una excepción o devolver null
+            // Puedes personalizar esto según tus necesidades.
+            throw new RuntimeException("Ya existe un usuario con el DNI proporcionado");
+        }
     }
 	
+    /**
+     * Verifica si un usuario con el DNI especificado ya existe en la base de datos.
+     * @param dni El DNI del usuario a verificar
+     * @return true si el usuario existe, false si no existe
+     */
+    public boolean existeUsuarioConDNI(String dni) {
+        Optional<Usuario> usuarioExistente = usuarioRepositorio.findByDniUsuario(dni);
+        return usuarioExistente.isPresent();
+    }
 
 	
 	
