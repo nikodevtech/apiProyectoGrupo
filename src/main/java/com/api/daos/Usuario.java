@@ -5,7 +5,9 @@ import java.util.Calendar;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
-
+/**
+ * Clase DAO que representa la entidad "Usuario" en la base de datos.
+ */
 @Entity
 @Table(name = "usuarios", schema = "gbp_operacional")
 public class Usuario {

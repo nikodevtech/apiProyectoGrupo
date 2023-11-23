@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.api.daos.Usuario;
 
 /**
- * Clase que define los metodos que daran servicio a la clase Usuario
+ * Clase servicio que proporciona métodos para interactuar con la entidad Usuario en la base de datos.
  */
 @Service
 public class UsuarioServicio {
